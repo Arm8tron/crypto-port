@@ -1,4 +1,4 @@
-const { Connection } = require("@solana/web3.js")
+const { Connection, PublicKey, LAMPORTS_PER_SOL } = require("@solana/web3.js")
 const { TOKEN_PROGRAM_ID } = require("@solana/spl-token")
 
 
@@ -39,8 +39,9 @@ async function getWalletData(wallet) {
 
 	});
 
-	return walletData;
+	const solBal = await solanaConnection.getBalance(new PublicKey(wallet));
 
+	return { walletData, solBalance: (solBal / LAMPORTS_PER_SOL).toFixed(2) };
 }
 
 async function getTokenData(queryString) {
@@ -66,7 +67,7 @@ async function getTokenData(queryString) {
 }
 
 async function getCombinedData(address) {
-	const walletData = await getWalletData(address);
+	const { walletData, solBalance } = await getWalletData(address);
 	let queryString = "";
 	walletData.forEach((token) => {
 		queryString += `${token.mintAddress},`;
@@ -102,7 +103,7 @@ async function getCombinedData(address) {
 		}
 	});
 
-	return { walletBalance: walletBalance.toFixed(2), combinedData }
+	return { walletBalance: walletBalance.toFixed(2), combinedData, solBalance }
 }
 
 module.exports = getCombinedData

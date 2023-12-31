@@ -32,9 +32,9 @@ app.get('/', async (req, res) => {
 	const address = req.query.address;
 
 	try {
-		const { walletBalance, combinedData } = await getCombinedData(address);
+		const { walletBalance, combinedData, solBalance } = await getCombinedData(address);
 
-		res.render('main', { layout: 'index', walletBalance, combinedData, address, isData: true });
+		res.render('main', { layout: 'index', walletBalance, combinedData, address, solBalance, isData: true });
 	} catch (error) {
 		console.log(error);
 		res.render('main', { layout: 'index', isData: false });
