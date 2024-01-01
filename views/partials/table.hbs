@@ -1,0 +1,36 @@
+<table class="table table-striped table-bordered" style="background-color: #495057; border-radius: 8px; padding: 10px;">
+	<thead>
+		<tr>
+			<th scope="col">Mint Address</th>
+			<th scope="col">Value</th>
+			<th scope="col">Token Balance</th>
+			<th scope="col">Name</th>
+			<th scope="col">Price</th>
+			<th scope="col">FDV</th>
+			<th scope="col">Liquidity</th>
+			<th scope="col">Price change h24
+				{{!-- <select name="price-change" hx-trigger="change" hx-post="/api/price-change" 
+					hx-vals='{"priceChangeH24": "{{priceChangeH24}}", "priceChangeM5": "{{priceChangeM5}}" }'>
+					<option value="h24">h24</option>
+					<option value="h6">h6</option>
+					<option value="h1">h1</option>
+					<option value="m5">m5</option>
+				</select> --}}
+			</th>
+		</tr>
+	</thead>
+	<tbody>
+		{{#each combinedData}}
+		<tr>
+			<td>{{this.mintAddress}}</td>
+			<td>${{this.value}}</td>
+			<td>{{this.tokenBalance}}</td>
+			<td>{{this.name}}</td>
+			<td>${{this.price}}</td>
+			<td>${{this.fdv}}</td>
+			<td style="{{#if this.danger}}background-color:#FF0000{{/if}};">{{this.liquidity}}</td>
+			<td>{{this.activePriceChange}}%</td>
+		</tr>
+		{{/each}}
+	</tbody>
+</table>

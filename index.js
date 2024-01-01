@@ -2,14 +2,14 @@ const express = require("express");
 require('dotenv').config()
 const { CronJob } = require('cron');
 const { engine } = require('express-handlebars');
-const bodyparser = require('body-parser')
+const bodyParser = require('body-parser')
 
 const getCombinedData = require('./src/wallet-helper');
 const emailHelper = require('./src/email-helper');
 
 const app = express();
 
-app.use(bodyparser.urlencoded({ extended: true }));
+app.use(bodyParser.urlencoded({ extended: true }));
 
 app.engine('hbs', engine({
 	layoutsDir: './views/layouts',
@@ -34,7 +34,7 @@ app.get('/', async (req, res) => {
 	try {
 		const { walletBalance, combinedData, solBalance } = await getCombinedData(address);
 
-		res.render('main', { layout: 'index', walletBalance, combinedData, address, solBalance, isData: true });
+		res.render('main', { layout: 'index', walletBalance, combinedData, address, solBalance, isData: true, numOfCoins: combinedData.length });
 	} catch (error) {
 		console.log(error);
 		res.render('main', { layout: 'index', isData: false });
@@ -64,6 +64,11 @@ app.post('/api/data', async (req, res) => {
 	// 	res.send("Some error occured");
 	// }
 })
+
+app.post('/api/price-change', (req, res) => {
+	console.log(req.body.combinedData);
+	//res.send('Request received successfully');
+});
 
 
 const PORT = process.env.PORT;

@@ -59,7 +59,9 @@ async function getTokenData(queryString) {
 			price: token.priceUsd,
 			fdv: token.fdv,
 			liquidity: token.liquidity.usd,
-			priceChange: token.priceChange
+			activePriceChange: token.priceChange.h24,
+			priceChangeH24: token.priceChange.h24,
+			priceChangeM5: token.priceChange.m5,
 		})
 	})
 

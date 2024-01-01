@@ -1,49 +1,33 @@
-<main class="p-4" id="main">
-	<form hx-post="/api/data" hx-target="#main" hx-push-url="true" hx-swap="outerHTML" class="mb-3 d-flex flex-row gap-2 align-items-center justify-content-center ">
-		<input name="address" placeholder="Enter wallet address" />
-		<button type="submit" class="btn-outline-primary">Submit</button>
-	</form>
+<main class="p-4" id="main" style="background-color: #343a40; color: #ffffff;">
+	<div class="container">
+		<form hx-post="/api/data" hx-target="#main" hx-push-url="true" hx-swap="outerHTML" class="mb-3 p-3" style="background-color: #495057; border-radius: 8px;">
+			<div class="row g-2 align-items-center justify-content-center">
+				<div class="col-auto">
+					<label for="address" class="visually-hidden">Enter wallet address</label>
+					<input type="text" class="form-control" id="address" name="address"
+						placeholder="Enter wallet address">
+				</div>
+				<div class="col-auto">
+					<button type="submit" class="btn btn-outline-light">Submit</button>
+				</div>
+			</div>
+		</form>
 
-	{{#if isData }}
-	<div id="wallet-data">
-		<div class="mb-3 d-flex flex-column  align-items-center justify-content-center ">
-			<h4>Wallet Balance for {{ address }}</h4>
-			<p class="text-sm font-weight-light">(Liquidity less than $100 isnt included in walletbalance)</p>
-			<p class="text-lg text-weight-bold ">${{ walletBalance }}</p>
-			<p>Sol Balance: {{solBalance}}</p>
-		</div>
+		{{#if isData }}
+		<div id="wallet-data" style="background-color: #495057; border-radius: 8px; padding: 20px; margin-top: 20px;">
+			<div class="mb-3 d-flex flex-column  align-items-center justify-content-center ">
+				<h4>Wallet Balance for {{ address }}</h4>
+				<p class="text-sm font-weight-light">(Liquidity less than $100 isnt included in walletbalance)</p>
+				<p class="text-lg text-weight-bold ">${{ walletBalance }}</p>
+				<p>Sol Balance: {{solBalance}}</p>
+			</div>
+			<div class="mb-3">
+				<h2>Data (Number of coins: {{numOfCoins}})</h2>
+				<div class="table-responsive" style="background-color: #495057; border-radius: 8px; padding: 10px;">
+					{{> table}}
+				</div>
+			</div>
 
-		<div class="mb-3">
-			<h2>Data</h2>
-			<table class="table">
-				<thead>
-					<tr>
-						<th scope="col">Mint Address</th>
-						<th scope="col">Token Balance</th>
-						<th scope="col">Name</th>
-						<th scope="col">Price</th>
-						<th scope="col">FDV</th>
-						<th scope="col">Liquidity</th>
-						<th scope="col">Value</th>
-						<th scope="col">Price change 24h</th>
-					</tr>
-				</thead>
-				<tbody>
-					{{#each combinedData}}
-					<tr>
-						<td>{{this.mintAddress}}</td>
-						<td>{{this.tokenBalance}}</td>
-						<td>{{this.name}}</td>
-						<td>{{this.price}}</td>
-						<td>{{this.fdv}}</td>
-						<td style="{{#if this.danger}}background-color:#FF0000{{/if}};">{{this.liquidity}}</td>
-						<td>{{this.value}}</td>
-						<td>{{this.priceChange.h24}}</td>
-					</tr>
-					{{/each}}
-				</tbody>
-			</table>
+			{{/if}}
 		</div>
-	</div>
-	{{/if}}
 </main>
